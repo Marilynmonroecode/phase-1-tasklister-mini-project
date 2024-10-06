@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // script.js
     const taskForm = document.getElementById('create-task-form');
     const taskInput = document.getElementById('new-task-description');
     const userInput = document.getElementById('userInput');
@@ -7,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const taskList = document.getElementById('list');
 
     let tasks = [];
-    let editTaskIndex = null; // To keep track of the task being edited
+    let editTaskIndex = null; // Track the index of the task being edited
 
     // Handle form submission
     taskForm.addEventListener('submit', (event) => {
@@ -51,13 +50,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     window.deleteTask = function(index) {
-        tasks.splice(index, 1);
-        renderTasks();
+        if (confirm("Are you sure you want to delete this task?")) {
+            tasks.splice(index, 1); // Remove the task from the array
+            renderTasks(); // Re-render the task list
+        }
     };
 
     window.editTask = function(index) {
         const task = tasks[index];
-        taskInput.value = task.text;
+        taskInput.value = task.text; // Populate input fields with task data
         userInput.value = task.user;
         priorityInput.value = task.priority;
         editTaskIndex = index; // Set the index to know which task to edit
@@ -66,10 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function clearInputs() {
         taskInput.value = '';
         userInput.value = '';
-        priorityInput.value = 'low';
+        priorityInput.value = 'low'; // Reset priority to default
     }
 
-    // Sort tasks by priority
+    // Sort tasks by priority (optional feature)
     function sortTasks(order = 'asc') {
         tasks.sort((a, b) => {
             const priorityValues = { low: 1, medium: 2, high: 3 };
